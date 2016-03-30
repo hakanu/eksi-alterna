@@ -159,7 +159,7 @@ jQuery( document ).ready(function( $ ) {
   page('/e/:slug', showDescription);
   page('e/:slug', showEntry);
   page('index.html', showEntryFromGetParam);
-  page('*', notfound);
+  page('*', showDescription);
   page();
 
 
