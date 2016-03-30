@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ekşi silinen entry toplama takımı</title>
+    <link rel="stylesheet" href="static/css/chrome.css" type="text/css">
+    <!-- <script src="/page.js"></script> -->
+    <script src="https://cdn.rawgit.com/visionmedia/page.js/master/page.js"></script>
+  </head>
+  <body>
+    <div id="main">
+      <aside>
+        <h1><a href="/">Entryler</a></h1>
+        <nav>
+          <ul id="entries">
+          </ul>
+        </nav>
+      </aside>
+
+      <section id="content"></section>
+
+      <script id="not-found-template" type="text/x-template">
+        <h2>Not Found</h2>
+        <p>Sorry! I cannot find that page.</p>
+      </script>
+
+      <script id="description-template" type="text/x-template">
+        <h2>Hakkında</h2>
+        <p>
+          Bu site sadece Ekşisözlük ten silinen entryleri yazarların izin verdiği ölçüde barındıran minik bir oluşumdur.
+          Ekşi sözlük ile hiç bir bağı yoktur. Sadece kutsal bilgi kaynağını olabildiğince korumaya çalışmaktadır.
+        </p>
+        <p>13 mart 2016 saat 02:30 itibariyle 1361 yazar tarafından 1 milyon entry silindi</p>
+        <p><a href="https://eksisozluk.com/entry/58989570" target="_blank">Yazarlar neden entrylerini sildiler?</a></p>
+      </script>
+    </div>
+
+    <script>
+      page.base('/');
+      // page('*', showActiveLink);
+      page('/', showDescription);
+      page('e/:slug', showEntry);
+      page('*', notfound);
+      page();
+
+      function showActiveLink(ctx, next) {
+        deactiveate();
+        a(ctx.path).parentNode.classList.add('active');
+        next();
+      }
+
+      function showEntry(ctx) {
+        console.log("showing entry");
+        render(template(ctx.params.slug), !ctx.init);
+      }
+
+      function showDescription(ctx) {
+        console.log("showing description");
+        render(template('description'), !ctx.init);
+      }
+
+      function notfound(ctx) {
+        render(template('not-found'), !ctx.init);
+      }
+
+      function render(html, hide) {
+        var el = document.getElementById('content');
+        if (hide) {
+          el.classList.add('hide');
+          setTimeout(function(){
+            el.innerHTML = html;
+            el.classList.remove('hide');
+          }, 300);
+        } else {
+          el.innerHTML = html;
+        }
+      }
+
+      function deactiveate() {
+        var el = document.querySelector('.active')
+        if (el) el.classList.remove('active');
+      }
+
+      function a(href) {
+        return document.querySelector('[href=".' + href + '"]');
+      }
+
+      function template(name) {
+        return document
+          .getElementById(name + '-template')
+          .innerHTML;
+      }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="static/js/custom_page.js"></script>
+  </body>
+</html>
