@@ -46,7 +46,7 @@ function getEntryList() {
 }
 
 function getEntry(slug) {
-  var jqxhr = $.ajax('https://alterna.firebaseio.com/entry.json?slug=' + slug + '&orderBy="title"&limitToFirst=1')
+  var jqxhr = $.ajax('https://alterna.firebaseio.com/entry.json?slug=' + slug + '&orderBy="title"&limitToFirst=20')
   .done(function(data) {
     console.log(data);
     console.log(data.length);
